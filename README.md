@@ -1,6 +1,8 @@
 # EventScheduler
 A tool for scheduling events.
 
+```npm test``` to run jasmine test suite.
+
 You need to provide an event dispatching function with the following signature:
 
 ``` function dispatch(topic, message) {} ```

@@ -22,7 +22,7 @@
   "author": "@mykola",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mbilokonsky/EventScheduler/issues"
+    "url": "https://github.com/controlgroup/EventScheduler/issues"
   },
-  "homepage": "https://github.com/mbilokonsky/EventScheduler"
+  "homepage": "https://github.com/controlgroup/EventScheduler"
 }
