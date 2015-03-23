@@ -47,8 +47,11 @@ scheduler.report();
 Or, alternately, you can call scheduler.formatReport() to pretty-print a set of pending events for debugging:
 
 ```
+var scheduler = createScheduler();
 scheduler.schedule(Date.now() + 2000, "myTopic", {payload: "foo"});
 scheduler.schedule(Date.now() + 4000, "myTopic", {payload: "bar"});
+scheduler.schedule(Date.now() + 2000, "myTopic", {payload: "foo2"});
+scheduler.schedule(Date.now() + 4000, "myTopic", {payload: "bar2"});
 scheduler.formatReport(); 
 
 /* Prints:
