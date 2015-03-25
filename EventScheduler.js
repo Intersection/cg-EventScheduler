@@ -34,7 +34,9 @@
         var pending = events[timestamp];
         if (pending) {
           pending.forEach(function(e) {
-            dispatch(e.topic, e.message);
+            if (e.active) {
+              dispatch(e.topic, e.message);  
+            }            
           });
 
           delete events[timestamp];
@@ -51,15 +53,23 @@
           events[timestamp] = [];
         }
 
-        events[timestamp].push({
+        var scheduledItem = {
+          timestamp: timestamp,
           topic: topic,
-          message: message
-        });
+          message: message,
+          active: true,
+          cancel: function() {
+            scheduledItem.active = false;
+          }
+        };
+
+        events[timestamp].push(scheduledItem);
+        return scheduledItem;
       }
 
       function batch(source) {
-        source.forEach(function(scheduledItem) {
-          schedule(scheduledItem.timestamp, scheduledItem.topic, scheduledItem.message);
+        return source.map(function(scheduledItem) {
+          return schedule(scheduledItem.timestamp, scheduledItem.topic, scheduledItem.message);
         });
       }
 
@@ -102,7 +112,12 @@
         for (var timestamp in data) {
           console.group("In " + timestamp + "ms, scheduler will publish:");
           data[timestamp].forEach(function(event) {        
-            console.log("[" + event.topic + "]", event.message);        
+            if (event.active) {
+              console.log("[" + event.topic + "]", event.message);          
+            } else {
+              console.log("%c[" + event.topic + " - canceled]", "color:red; font-style:italic;", event.message);
+            }
+            
           });
           console.groupEnd();
         }        
